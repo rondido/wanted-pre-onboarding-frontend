@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -28,13 +29,16 @@ const Button = styled.button`
 		background-color: aliceblue;
 	}
 `;
-
 export default function MainContainer() {
 	return (
 		<Container>
 			<ButtonItemDiv>
 				<h1>원티드 프리온보딩 인턴십 선발 과제</h1>
-				<Button>시작하기</Button>
+				<Button>
+					<Link to="/signin" style={{ textDecoration: 'none', color: 'black' }}>
+						시작하기
+					</Link>
+				</Button>
 			</ButtonItemDiv>
 		</Container>
 	);
