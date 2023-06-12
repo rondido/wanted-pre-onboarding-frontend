@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import useValidation from 'lib/useValidation';
 import styled from 'styled-components';
+import { authSignUp } from 'apis/Api';
+import { useNavigate } from 'react-router';
 
 const Container = styled.div`
 	display: flex;
@@ -82,8 +84,20 @@ export default function SignUpContainer() {
 			[name]: value,
 		});
 	};
-
+	const navigate = useNavigate();
 	const [emailStatus, passwordStatus] = useValidation(inputValid);
+
+	async function postSingupRender({ email, password }) {
+		const status = await authSignUp({ email, password });
+		if (status === 201) {
+			navigate('/signin');
+		}
+	}
+
+	const singupSubmit = e => {
+		e.preventDefault();
+		postSingupRender(inputValid);
+	};
 
 	return (
 		<Container>
@@ -91,32 +105,34 @@ export default function SignUpContainer() {
 				<TitleDiv>
 					<h1>회원가입</h1>
 				</TitleDiv>
-				<EmailLabelDiv>
-					<label>
-						이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />
-					</label>
-					<StatusMessage>{emailStatus.message}</StatusMessage>
-				</EmailLabelDiv>
-				<PasswordLabelDiv>
-					<label>
-						비밀번호
-						<InputFiled
-							data-testid="password-input"
-							name="password"
-							type="password"
-							onChange={inputChange}
-						/>
-					</label>
-					<StatusMessage>{passwordStatus.message}</StatusMessage>
-				</PasswordLabelDiv>
-				<SignupButtonDiv>
-					<SigupButton
-						data-testid="signup-button"
-						disabled={!emailStatus.status || !passwordStatus.status}
-					>
-						회원가입
-					</SigupButton>
-				</SignupButtonDiv>
+				<form onSubmit={singupSubmit}>
+					<EmailLabelDiv>
+						<label>
+							이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />
+						</label>
+						<StatusMessage>{emailStatus.message}</StatusMessage>
+					</EmailLabelDiv>
+					<PasswordLabelDiv>
+						<label>
+							비밀번호
+							<InputFiled
+								data-testid="password-input"
+								name="password"
+								type="password"
+								onChange={inputChange}
+							/>
+						</label>
+						<StatusMessage>{passwordStatus.message}</StatusMessage>
+					</PasswordLabelDiv>
+					<SignupButtonDiv>
+						<SigupButton
+							data-testid="signup-button"
+							disabled={!emailStatus.status || !passwordStatus.status}
+						>
+							회원가입
+						</SigupButton>
+					</SignupButtonDiv>
+				</form>
 			</Item>
 		</Container>
 	);
