@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
+import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
+import { authSignin } from 'apis/Api';
 import useValidation from 'lib/useValidation';
 
 const Container = styled.div`
@@ -83,7 +86,24 @@ export default function SignInContainer() {
 		});
 	};
 
+	const navigate = useNavigate();
 	const [emailStatus, passwordStatus] = useValidation(inputValid);
+
+	async function postSigninRender({ email, password }) {
+		const token = await authSignin({ email, password });
+		if (token) {
+			localStorage.setItem('access_token', token.access_token);
+			navigate('/todo');
+		}
+	}
+	const signInSubmit = e => {
+		e.preventDefault();
+		postSigninRender(inputValid);
+	};
+
+	useEffect(() => {
+		if (USER_ACCESS_TOKEN) navigate('/todo');
+	}, []);
 
 	return (
 		<Container>
@@ -91,32 +111,34 @@ export default function SignInContainer() {
 				<TitleDiv>
 					<h1>로그인</h1>
 				</TitleDiv>
-				<EmailLabelDiv>
-					<label>
-						이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />
-					</label>
-					<StatusMessage>{emailStatus.message}</StatusMessage>
-				</EmailLabelDiv>
-				<PasswordLabelDiv>
-					<label>
-						비밀번호
-						<InputFiled
-							data-testid="password-input"
-							type="password"
-							name="password"
-							onChange={inputChange}
-						/>
-					</label>
-					<StatusMessage>{passwordStatus.message}</StatusMessage>
-				</PasswordLabelDiv>
-				<SigninButtonDiv>
-					<SiginButton
-						data-testid="signin-button"
-						disabled={!emailStatus.status || !passwordStatus.status}
-					>
-						로그인
-					</SiginButton>
-				</SigninButtonDiv>
+				<form onSubmit={signInSubmit}>
+					<EmailLabelDiv>
+						<label>
+							이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />
+						</label>
+						<StatusMessage>{emailStatus.message}</StatusMessage>
+					</EmailLabelDiv>
+					<PasswordLabelDiv>
+						<label>
+							비밀번호
+							<InputFiled
+								data-testid="password-input"
+								type="password"
+								name="password"
+								onChange={inputChange}
+							/>
+						</label>
+						<StatusMessage>{passwordStatus.message}</StatusMessage>
+					</PasswordLabelDiv>
+					<SigninButtonDiv>
+						<SiginButton
+							data-testid="signin-button"
+							disabled={!emailStatus.status || !passwordStatus.status}
+						>
+							로그인
+						</SiginButton>
+					</SigninButtonDiv>
+				</form>
 			</Item>
 		</Container>
 	);
