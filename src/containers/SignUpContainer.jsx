@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useValidation from 'lib/useValidation';
 import styled from 'styled-components';
 import { authSignUp } from 'apis/Api';
 import { useNavigate } from 'react-router';
+import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
 
 const Container = styled.div`
 	display: flex;
@@ -87,17 +88,19 @@ export default function SignUpContainer() {
 	const navigate = useNavigate();
 	const [emailStatus, passwordStatus] = useValidation(inputValid);
 
-	async function postSingupRender({ email, password }) {
+	async function postSignupRender({ email, password }) {
 		const status = await authSignUp({ email, password });
-		if (status === 201) {
-			navigate('/signin');
-		}
+		if (status === 201) navigate('/signin');
 	}
 
 	const singupSubmit = e => {
 		e.preventDefault();
-		postSingupRender(inputValid);
+		postSignupRender(inputValid);
 	};
+
+	useEffect(() => {
+		if (USER_ACCESS_TOKEN) navigate('/todo');
+	}, []);
 
 	return (
 		<Container>
