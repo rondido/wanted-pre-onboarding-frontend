@@ -61,6 +61,8 @@ const SigninButtonDiv = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const SiginButton = styled.button`
@@ -70,6 +72,7 @@ const SiginButton = styled.button`
 	background-color: rgb(233, 233, 233);
 	border: 0;
 	height: 50px;
+	margin-bottom: 20px;
 `;
 
 export default function SignInContainer() {
@@ -105,6 +108,9 @@ export default function SignInContainer() {
 		if (USER_ACCESS_TOKEN) navigate('/todo');
 	}, []);
 
+	const signupNavigate = () => {
+		navigate('/signup');
+	};
 	return (
 		<Container>
 			<Item>
@@ -134,9 +140,11 @@ export default function SignInContainer() {
 						<SiginButton
 							data-testid="signin-button"
 							disabled={!emailStatus.status || !passwordStatus.status}
+							type="submit"
 						>
 							로그인
 						</SiginButton>
+						<SiginButton onClick={signupNavigate}>회원가입</SiginButton>
 					</SigninButtonDiv>
 				</form>
 			</Item>
