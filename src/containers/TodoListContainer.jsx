@@ -2,7 +2,74 @@ import React, { useEffect, useState } from 'react';
 
 import TodoItem from './components/Todos/TodoItem';
 import { createTodo, deleteTodo, getTodo, updateTodo } from 'apis/Api';
+import styled from 'styled-components';
 
+const Container = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	width: 500px;
+	height: 100%;
+`;
+
+const WapperDiv = styled.div`
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const TitleDiv = styled.div`
+	margin-bottom: 5%;
+	display: flex;
+	justify-content: center;
+`;
+
+const FormDiv = styled.form`
+	outline: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
+
+const AddInputText = styled.input`
+	width: 300px;
+	height: 32px;
+	font-size: 15px;
+	border: 0;
+	border-radius: 15px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(233, 233, 233);
+	&:focus {
+		outline: none;
+	}
+`;
+
+const InputButton = styled.button`
+	outline: none;
+	border-radius: 1px;
+	background-color: rgb(233, 233, 233);
+	border: 0;
+	height: 30px;
+	width: 50px;
+	margin-left: 5%;
+	&:hover {
+		background-color: aliceblue;
+	}
+`;
+const TodoItemDiv = styled.div`
+	display: flex;
+	justify-content: flex-start;
+	width: 90%;
+`;
 export default function TodoListContainer() {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
@@ -44,16 +111,22 @@ export default function TodoListContainer() {
 
 	return (
 		<>
-			<div>
-				<h1>할일 목록</h1>
-				<form onSubmit={addTodoSubmit}>
-					<input data-testid="new-todo-input" value={inputValue} onChange={todoChange} />
-					<button data-testid="new-todo-add-button">추가</button>
-				</form>
-				<div>
+			<Container>
+				<WapperDiv>
+					<TitleDiv>
+						<h1>할일 목록</h1>
+					</TitleDiv>
+					<FormDiv onSubmit={addTodoSubmit}>
+						<AddInputText
+							data-testid="new-todo-input"
+							value={inputValue || ''}
+							onChange={todoChange}
+						/>
+						<InputButton data-testid="new-todo-add-button">추가</InputButton>
+					</FormDiv>
 					{todoData &&
 						todoData.map((v, i) => (
-							<div key={i}>
+							<TodoItemDiv key={i}>
 								<TodoItem
 									todo={v.todo}
 									id={v.id}
@@ -61,10 +134,10 @@ export default function TodoListContainer() {
 									deletebutton={deleteTodoRender}
 									updateCheckTodo={updateCheckTodo}
 								/>
-							</div>
+							</TodoItemDiv>
 						))}
-				</div>
-			</div>
+				</WapperDiv>
+			</Container>
 		</>
 	);
 }
