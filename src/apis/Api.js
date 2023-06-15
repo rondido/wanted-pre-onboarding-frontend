@@ -1,7 +1,7 @@
 import { apiClient } from './apiClient';
 
 //회원가입
-export async function authSignUp({ email, password }) {
+export async function requerstSignUp({ email, password }) {
 	try {
 		const res = await apiClient.post(`auth/signup`, {
 			email: email,
@@ -13,7 +13,7 @@ export async function authSignUp({ email, password }) {
 	}
 }
 
-export async function authSignin({ email, password }) {
+export async function requerstSignin({ email, password }) {
 	try {
 		const res = await apiClient.post(`/auth/signin`, {
 			email: email,
