@@ -61,6 +61,7 @@ export async function updateTodo(id, todo, isCompleted) {
 			todo: todo,
 			isCompleted: isCompleted,
 		});
+		console.log(res);
 		return res;
 	} catch (e) {
 		console.error(e);

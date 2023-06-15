@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { updateTodo } from 'apis/Api';
+import { updateTodo, getTodo } from 'apis/Api';
 
 const ContainerUl = styled.ul`
 	text-decoration: none;
@@ -50,22 +50,26 @@ const ModifyText = styled.input`
 	text-align: center;
 `;
 
-export default function TodoItem({ todo, id, isCompleted, deletebutton, updateCheckTodo }) {
+export default function TodoItem({
+	todo,
+	id,
+	isCompleted,
+	deletebutton,
+	updateCheckTodo,
+	setTodoData,
+}) {
 	const [buttonValid, setButtonValid] = useState(false);
-	const [updateValue, setUpdateValue] = useState('');
+	const [updateValue, setUpdateValue] = useState(todo);
 
-	async function updateTodoRender(id, todo, isCompleted) {
-		await updateTodo(id, todo, isCompleted);
-	}
 	const modifyInputChange = e => {
 		setUpdateValue(e.target.value);
 	};
 
-	const updateOnSubmit = id => {
-		setButtonValid(true);
-		updateTodoRender(id, updateValue, isCompleted);
+	const handleSubmit = async (e, id) => {
+		setButtonValid(false);
+		const res = await updateTodo(id, updateValue, isCompleted);
+		setTodoData(prev => prev.map(todo => (todo.id === res.data.id ? res.data : todo)));
 	};
-
 	return (
 		<div>
 			{!buttonValid ? (
@@ -91,7 +95,7 @@ export default function TodoItem({ todo, id, isCompleted, deletebutton, updateCh
 				</div>
 			) : (
 				<div>
-					<form onSubmit={() => updateOnSubmit(id)}>
+					<form onSubmit={e => handleSubmit(e, id)}>
 						<ContainerUl>
 							<LiWapper>
 								<label>
@@ -102,7 +106,7 @@ export default function TodoItem({ todo, id, isCompleted, deletebutton, updateCh
 									/>
 									<ModifyText
 										data-testid="modify-input"
-										defaultValue={todo}
+										defaultValue={updateValue}
 										onChange={modifyInputChange}
 									/>
 								</label>
