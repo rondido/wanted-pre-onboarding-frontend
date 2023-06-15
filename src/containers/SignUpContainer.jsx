@@ -80,6 +80,8 @@ export default function SignUpContainer() {
 		email: '',
 		password: '',
 	});
+	const navigate = useNavigate();
+	const [emailStatus, passwordStatus] = useValidation(inputValid);
 
 	const inputChange = e => {
 		const { name, value } = e.target;
@@ -88,8 +90,6 @@ export default function SignUpContainer() {
 			[name]: value,
 		});
 	};
-	const navigate = useNavigate();
-	const [emailStatus, passwordStatus] = useValidation(inputValid);
 
 	async function postSignupRender({ email, password }) {
 		const status = await authSignUp({ email, password });
