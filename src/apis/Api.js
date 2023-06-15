@@ -68,10 +68,12 @@ export async function createTodo(todo) {
 }
 
 export async function getTodo() {
+	const accessToken = localStorage.getItem('access_token');
+
 	try {
 		const res = await axios.get(`${BASE_URL}todos`, {
 			headers: {
-				Authorization: `Bearer ${token}`,
+				Authorization: `Bearer ${accessToken}`,
 			},
 		});
 		return res;
