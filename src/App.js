@@ -7,12 +7,20 @@ import TodoListPage from 'pages/TodoListPage';
 import NotPoundPage from 'pages/NotPoundPage';
 
 function App() {
+	const Path = {
+		main: '/',
+		signin: '/signin',
+		signup: '/signup',
+		todo: '/todo',
+		error: '*',
+	};
+
 	return (
 		<Routes>
-			<Route path="/" element={<MainPage />} />
-			<Route path="/signin" element={<SigninPage />} />
-			<Route path="/signup" element={<SignUpPage />} />
-			<Route path="/todo" element={<TodoListPage />} />
+			<Route path={Path.main} element={<MainPage />} />
+			<Route path={Path.signin} element={<SigninPage />} />
+			<Route path={Path.signup} element={<SignUpPage />} />
+			<Route path={Path.todo} element={<TodoListPage />} />
 			<Route path="*" element={<NotPoundPage />} />
 		</Routes>
 	);
