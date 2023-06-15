@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import useValidation from 'lib/useValidation';
 import styled from 'styled-components';
-import { authSignUp } from 'apis/Api';
+import { requerstSignUp } from 'apis/Api';
 import { useNavigate } from 'react-router';
 import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
 
@@ -76,29 +76,29 @@ const SigupButton = styled.button`
 `;
 
 export default function SignUpContainer() {
-	const [inputValid, setInputValid] = useState({
+	const [signUpFormData, setSignUpFormData] = useState({
 		email: '',
 		password: '',
 	});
 	const navigate = useNavigate();
-	const [emailStatus, passwordStatus] = useValidation(inputValid);
+	const [emailStatus, passwordStatus] = useValidation(signUpFormData);
 
 	const inputChange = e => {
 		const { name, value } = e.target;
-		setInputValid({
-			...inputValid,
+		setSignUpFormData({
+			...signUpFormData,
 			[name]: value,
 		});
 	};
 
 	async function postSignupRender({ email, password }) {
-		const status = await authSignUp({ email, password });
+		const status = await requerstSignUp({ email, password });
 		if (status === 201) navigate('/signin');
 	}
 
-	const singupSubmit = e => {
+	const handleSignUp = e => {
 		e.preventDefault();
-		postSignupRender(inputValid);
+		postSignupRender(signUpFormData);
 	};
 
 	useEffect(() => {
@@ -114,7 +114,7 @@ export default function SignUpContainer() {
 				<TitleDiv>
 					<h1>회원가입</h1>
 				</TitleDiv>
-				<form onSubmit={singupSubmit}>
+				<form onSubmit={handleSignUp}>
 					<EmailLabelDiv>
 						<label>
 							이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />

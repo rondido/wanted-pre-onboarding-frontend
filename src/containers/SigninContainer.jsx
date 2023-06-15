@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
 import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
-import { authSignin } from 'apis/Api';
+import { requerstSignin } from 'apis/Api';
 import useValidation from 'lib/useValidation';
 
 const Container = styled.div`
@@ -76,32 +76,32 @@ const SiginButton = styled.button`
 `;
 
 export default function SignInContainer() {
-	const [inputValid, setInputValid] = useState({
+	const [signInFormData, setSignInFormData] = useState({
 		email: '',
 		password: '',
 	});
 
 	const inputChange = e => {
 		const { name, value } = e.target;
-		setInputValid({
-			...inputValid,
+		setSignInFormData({
+			...signInFormData,
 			[name]: value,
 		});
 	};
 
 	const navigate = useNavigate();
-	const [emailStatus, passwordStatus] = useValidation(inputValid);
+	const [emailStatus, passwordStatus] = useValidation(signInFormData);
 
 	async function postSigninRender({ email, password }) {
-		const token = await authSignin({ email, password });
+		const token = await requerstSignin({ email, password });
 		if (token) {
 			localStorage.setItem('access_token', token.access_token);
 			navigate('/todo');
 		}
 	}
-	const signInSubmit = e => {
+	const handleSignIn = e => {
 		e.preventDefault();
-		postSigninRender(inputValid);
+		postSigninRender(signInFormData);
 	};
 
 	useEffect(() => {
@@ -117,7 +117,7 @@ export default function SignInContainer() {
 				<TitleDiv>
 					<h1>로그인</h1>
 				</TitleDiv>
-				<form onSubmit={signInSubmit}>
+				<form onSubmit={handleSignIn}>
 					<EmailLabelDiv>
 						<label>
 							이메일 <InputFiled data-testid="email-input" name="email" onChange={inputChange} />
