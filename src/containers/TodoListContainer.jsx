@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import TodoItem from './components/Todos/TodoItem';
 import { createTodo, deleteTodo, getTodo, updateTodo } from 'apis/Api';
 import styled from 'styled-components';
+import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
 	display: flex;
@@ -73,7 +75,7 @@ const TodoItemDiv = styled.div`
 export default function TodoListContainer() {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
-
+	const navigator = useNavigate();
 	async function createTodoRender(todo) {
 		await createTodo(todo);
 		getDataTodos();
@@ -104,9 +106,14 @@ export default function TodoListContainer() {
 		await updateTodo(id, todo, isCompleted);
 		getDataTodos();
 	};
-
 	useEffect(() => {
-		getDataTodos();
+		if (localStorage.getItem('access_token') == null) {
+			navigator('/signin');
+			return;
+		}
+		if (localStorage.getItem('access_token').length > 0) {
+			getDataTodos();
+		}
 	}, []);
 
 	return (
