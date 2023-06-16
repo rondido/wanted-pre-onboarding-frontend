@@ -26,20 +26,33 @@ export async function requerstSignin({ email, password }) {
 	}
 }
 
-export async function createTodo(todo) {
+export async function createTodo(todo, token) {
 	try {
-		const res = await apiClient.post(`todos`, {
-			todo: todo,
-		});
+		const res = await apiClient.post(
+			`todos`,
+			{
+				todo: todo,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
 		return res;
 	} catch (e) {
 		console.error(e);
 	}
 }
 
-export async function getTodo() {
+export async function getTodo(token) {
+	console.log(token);
 	try {
-		const res = await apiClient.get(`todos`);
+		const res = await apiClient.get(`todos`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 		return res;
 	} catch (e) {
 		console.error(e);

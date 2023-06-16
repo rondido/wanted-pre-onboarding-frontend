@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
-import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
 import { requerstSignin } from 'apis/Api';
 import useValidation from 'lib/useValidation';
+import { getAccessToken, hasAccessToken, registerToken } from 'tokens/token';
 
 const Container = styled.div`
 	display: flex;
@@ -94,8 +94,9 @@ export default function SignInContainer() {
 
 	async function postSigninRender({ email, password }) {
 		const token = await requerstSignin({ email, password });
+
 		if (token) {
-			localStorage.setItem('access_token', token.access_token);
+			registerToken(token.access_token);
 			navigate('/todo');
 		}
 	}
@@ -105,7 +106,7 @@ export default function SignInContainer() {
 	};
 
 	useEffect(() => {
-		if (USER_ACCESS_TOKEN) navigate('/todo');
+		//if (hasAccessToken()) navigate('/todo');
 	}, []);
 
 	const signupNavigate = () => {
