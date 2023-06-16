@@ -45,7 +45,7 @@ export async function createTodo(todo, token) {
 	}
 }
 
-export async function getTodo(token) {
+export async function getTodo({ token }) {
 	console.log(token);
 	try {
 		const res = await apiClient.get(`todos`, {

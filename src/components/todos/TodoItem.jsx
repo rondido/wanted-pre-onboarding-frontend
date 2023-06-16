@@ -50,6 +50,8 @@ const ModifyText = styled.input`
 	text-align: center;
 `;
 
+//컴포넌트 2개로 쪼개자! normalstate , updatestate
+
 export default function TodoItem({
 	todo,
 	id,
