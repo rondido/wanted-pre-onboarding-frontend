@@ -23,8 +23,9 @@ export default function SignUpContainer() {
 
 	async function postSignupRender({ email, password }) {
 		const status = await requerstSignUp({ email, password });
+		console.log(status);
 		if (status === 201) navigate('/signin');
-		if (status.response.status === 400) {
+		if (status === 400) {
 			alert(status.response.data.message);
 		}
 	}

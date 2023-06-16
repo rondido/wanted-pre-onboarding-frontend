@@ -9,9 +9,10 @@ export default function TodoListContainer({ token }) {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
 	const navigator = useNavigate();
+
 	async function createTodoRender(token, todo) {
-		const res = await createTodo(token, todo);
-		if (res.staus !== 201) {
+		const status = await createTodo(token, todo);
+		if (status.status !== 201) {
 			alert('에러가 발생했습니다');
 			return;
 		}
@@ -19,12 +20,12 @@ export default function TodoListContainer({ token }) {
 	}
 
 	async function deleteTodoRender(id, token) {
-		const res = await deleteTodo(id, token);
-		if (res !== 204) {
+		const status = await deleteTodo(id, token);
+		if (status.status !== 204) {
 			alert('에러가 발생했습니다');
 			return;
 		}
-		getDataTodos();
+		setTodoData(prev => prev.filter(todo => todo.id !== id));
 	}
 
 	const todoChange = e => {
@@ -45,13 +46,14 @@ export default function TodoListContainer({ token }) {
 
 	const updateCheckTodo = async (id, todo, isCompleted, token) => {
 		isCompleted = !isCompleted;
-		const res = await updateTodo(id, todo, isCompleted, token);
-		if (res.staus !== 200) {
+		const status = await updateTodo(id, todo, isCompleted, token);
+		if (status.status !== 200) {
 			alert('에러가 발생했습니다');
 			return;
 		}
 		getDataTodos();
 	};
+
 	const LogoutButton = () => {
 		removeAccessToken();
 		navigator('/signin');
