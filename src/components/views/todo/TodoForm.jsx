@@ -41,7 +41,20 @@ const InputButton = styled.button`
 	}
 `;
 
-export default function TodoForm({ addTodoSubmit, inputValue, todoChange }) {
+const InputLogoutButton = styled.button`
+	outline: none;
+	border-radius: 1px;
+	background-color: rgb(233, 233, 233);
+	border: 0;
+	height: 30px;
+	width: 80px;
+	margin-left: 5%;
+	&:hover {
+		background-color: aliceblue;
+	}
+`;
+
+export default function TodoForm({ addTodoSubmit, inputValue, todoChange, LogoutButton }) {
 	return (
 		<div>
 			<TitleDiv>
@@ -50,6 +63,9 @@ export default function TodoForm({ addTodoSubmit, inputValue, todoChange }) {
 			<FormDiv onSubmit={addTodoSubmit}>
 				<AddInputText data-testid="new-todo-input" value={inputValue || ''} onChange={todoChange} />
 				<InputButton data-testid="new-todo-add-button">추가</InputButton>
+				<InputLogoutButton type="button" onClick={LogoutButton}>
+					로그아웃
+				</InputLogoutButton>
 			</FormDiv>
 		</div>
 	);
