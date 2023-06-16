@@ -7,7 +7,7 @@ import { hasAccessToken } from 'tokens/token';
 export default function SigninPage() {
 	const navigate = useNavigate();
 	useEffect(() => {
-		if (!hasAccessToken()) {
+		if (hasAccessToken()) {
 			navigate('/todo');
 			return;
 		}

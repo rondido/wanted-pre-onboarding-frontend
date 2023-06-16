@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { createTodo, deleteTodo, getTodo, updateTodo } from 'apis/Api';
 import TodoView from 'components/views/todo/TodoView';
 
-export default function TodoListContainer({ token }) {
+export default function TodoListContainer(token) {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
 
@@ -30,7 +30,6 @@ export default function TodoListContainer({ token }) {
 
 	const getDataTodos = async () => {
 		const getTodoList = await getTodo(token);
-
 		setTodoData(getTodoList.data);
 	};
 
