@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { updateTodo } from 'apis/Api';
@@ -28,18 +28,17 @@ const InputButton = styled.button`
 const LiWapper = styled.li`
 	width: 100%;
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
 `;
 
 const LabelContainer = styled.label`
-	width: 100%;
+	width: 300px;
 	display: flex;
 	justify-content: flex-start;
 `;
 
 const ModifyText = styled.input`
-	width: 160px;
+	width: 100%;
 	height: 32px;
 	font-size: 15px;
 	border: 0;
@@ -67,16 +66,20 @@ export default function TodoItem({
 	const modifyInputChange = e => {
 		setUpdateValue(e.target.value);
 	};
-
 	const handleSubmit = async id => {
 		setButtonValid(false);
 		const res = await updateTodo(id, updateValue, isCompleted, token);
 		if (res.status !== 200) {
-			alert('에러 발생했습니다');
+			alert('에러가 발생했습니다');
 			return;
 		}
 		setTodoData(prev => prev.map(todo => (todo.id === res.data.id ? res.data : todo)));
 	};
+
+	useEffect(() => {
+		setUpdateValue(todo);
+	}, [todo]);
+
 	return (
 		<div>
 			{!buttonValid ? (
@@ -105,18 +108,18 @@ export default function TodoItem({
 					<form onSubmit={() => handleSubmit(id)}>
 						<ContainerUl>
 							<LiWapper>
-								<label>
+								<LabelContainer>
 									<input
 										type="checkbox"
 										checked={isCompleted}
-										onChange={() => updateCheckTodo(id, todo, isCompleted)}
+										onChange={() => updateCheckTodo(id, todo, isCompleted, token)}
 									/>
 									<ModifyText
 										data-testid="modify-input"
-										defaultValue={updateValue}
+										value={updateValue}
 										onChange={modifyInputChange}
 									/>
-								</label>
+								</LabelContainer>
 								<InputButton data-testid="submit-button" type="submit">
 									제출
 								</InputButton>

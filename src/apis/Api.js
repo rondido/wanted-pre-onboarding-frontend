@@ -63,12 +63,14 @@ export async function getTodo(token) {
 }
 
 export async function deleteTodo(id, token) {
+	console.log(id, token);
 	try {
 		const res = await apiClient.delete(`todos/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+		console.log(res);
 		return res;
 	} catch (e) {
 		console.error(e);
