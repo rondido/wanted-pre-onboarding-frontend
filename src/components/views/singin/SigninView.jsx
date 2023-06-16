@@ -110,7 +110,9 @@ export default function SigninView({
 						>
 							로그인
 						</SiginButton>
-						<SiginButton onClick={signInNavigate}>회원가입</SiginButton>
+						<SiginButton onClick={signInNavigate} type="button">
+							회원가입
+						</SiginButton>
 					</SigninButtonDiv>
 				</form>
 			</Item>

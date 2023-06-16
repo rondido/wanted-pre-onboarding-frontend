@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { updateTodo, getTodo } from 'apis/Api';
+import { updateTodo } from 'apis/Api';
 
 const ContainerUl = styled.ul`
 	text-decoration: none;
@@ -59,6 +59,7 @@ export default function TodoItem({
 	deletebutton,
 	updateCheckTodo,
 	setTodoData,
+	token,
 }) {
 	const [buttonValid, setButtonValid] = useState(false);
 	const [updateValue, setUpdateValue] = useState(todo);
@@ -69,7 +70,11 @@ export default function TodoItem({
 
 	const handleSubmit = async id => {
 		setButtonValid(false);
-		const res = await updateTodo(id, updateValue, isCompleted);
+		const res = await updateTodo(id, updateValue, isCompleted, token);
+		if (res.status !== 200) {
+			alert('에러 발생했습니다');
+			return;
+		}
 		setTodoData(prev => prev.map(todo => (todo.id === res.data.id ? res.data : todo)));
 	};
 	return (
@@ -82,14 +87,14 @@ export default function TodoItem({
 								<input
 									type="checkbox"
 									checked={isCompleted}
-									onChange={() => updateCheckTodo(id, todo, isCompleted)}
+									onChange={() => updateCheckTodo(id, todo, isCompleted, token)}
 								/>
 								<span id={id}>{todo}</span>
 							</LabelContainer>
 							<InputButton data-testid="modify-button" onClick={() => setButtonValid(true)}>
 								수정
 							</InputButton>
-							<InputButton data-testid="delete-button" onClick={() => deletebutton(id)}>
+							<InputButton data-testid="delete-button" onClick={() => deletebutton(id, token)}>
 								삭제
 							</InputButton>
 						</LiWapper>
@@ -97,7 +102,7 @@ export default function TodoItem({
 				</div>
 			) : (
 				<div>
-					<form onSubmit={e => handleSubmit(e, id)}>
+					<form onSubmit={() => handleSubmit(id)}>
 						<ContainerUl>
 							<LiWapper>
 								<label>

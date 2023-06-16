@@ -10,6 +10,7 @@ export async function requerstSignUp({ email, password }) {
 		return res.status;
 	} catch (e) {
 		console.error(e);
+		return e;
 	}
 }
 
@@ -19,14 +20,15 @@ export async function requerstSignin({ email, password }) {
 			email: email,
 			password: password,
 		});
-		const data = res.data;
-		return data;
+
+		return res;
 	} catch (e) {
 		console.error(e);
+		return e;
 	}
 }
 
-export async function createTodo(todo, token) {
+export async function createTodo(token, todo) {
 	try {
 		const res = await apiClient.post(
 			`todos`,
@@ -42,11 +44,11 @@ export async function createTodo(todo, token) {
 		return res;
 	} catch (e) {
 		console.error(e);
+		return e;
 	}
 }
 
-export async function getTodo({ token }) {
-	console.log(token);
+export async function getTodo(token) {
 	try {
 		const res = await apiClient.get(`todos`, {
 			headers: {
@@ -56,27 +58,41 @@ export async function getTodo({ token }) {
 		return res;
 	} catch (e) {
 		console.error(e);
+		return e;
 	}
 }
 
-export async function deleteTodo(id) {
+export async function deleteTodo(id, token) {
 	try {
-		const res = await apiClient.delete(`todos/${id}`);
-		return res;
-	} catch (e) {
-		console.error(e);
-	}
-}
-
-export async function updateTodo(id, todo, isCompleted) {
-	try {
-		const res = await apiClient.put(`todos/${id}`, {
-			todo: todo,
-			isCompleted: isCompleted,
+		const res = await apiClient.delete(`todos/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
 		});
-		console.log(res);
 		return res;
 	} catch (e) {
 		console.error(e);
+		return e;
+	}
+}
+
+export async function updateTodo(id, todo, isCompleted, token) {
+	try {
+		const res = await apiClient.put(
+			`todos/${id}`,
+			{
+				todo: todo,
+				isCompleted: isCompleted,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		);
+		return res;
+	} catch (e) {
+		console.error(e);
+		return e;
 	}
 }

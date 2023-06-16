@@ -26,9 +26,14 @@ export default function SignInContainer() {
 	async function postSigninRender({ email, password }) {
 		const token = await requerstSignin({ email, password });
 
-		if (token) {
-			registerToken(token.access_token);
+		if (token.status === 200) {
+			registerToken(token.data.access_token);
 			navigate('/todo');
+			return;
+		}
+		if (token.status !== 401) {
+			alert('이메일과 비밀번호 올바르지 않습니다.');
+			return;
 		}
 	}
 	const handleSignIn = e => {
