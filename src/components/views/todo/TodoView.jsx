@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import TodoItems from './TodoItems';
-import TodoForm from './TodoForm';
+import TodoAddForm from './TodoAddForm';
 
 const Container = styled.div`
 	display: flex;
@@ -40,7 +40,7 @@ export default function TodoView({
 	return (
 		<Container>
 			<WapperDiv>
-				<TodoForm
+				<TodoAddForm
 					addTodoSubmit={addTodoSubmit}
 					inputValue={inputValue}
 					todoChange={todoChange}

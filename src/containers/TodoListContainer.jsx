@@ -35,6 +35,10 @@ export default function TodoListContainer({ token }) {
 
 	const addTodoSubmit = e => {
 		e.preventDefault();
+		if (inputValue === undefined || inputValue === null || inputValue === '') {
+			alert('값이 비어있다. 값을 입력해주세요');
+			return;
+		}
 		createTodoRender(token, inputValue);
 		setInputValue('');
 	};

@@ -11,7 +11,6 @@ export default function TodoListPage() {
 
 	useEffect(() => {
 		if (hasAccessToken() == false) {
-			console.log(123);
 			navigator('/signin');
 			return;
 		}
