@@ -35,11 +35,17 @@ export default function TodoView({
 	updateCheckTodo,
 	setTodoData,
 	token,
+	LogoutButton,
 }) {
 	return (
 		<Container>
 			<WapperDiv>
-				<TodoForm addTodoSubmit={addTodoSubmit} inputValue={inputValue} todoChange={todoChange} />
+				<TodoForm
+					addTodoSubmit={addTodoSubmit}
+					inputValue={inputValue}
+					todoChange={todoChange}
+					LogoutButton={LogoutButton}
+				/>
 				<TodoItems
 					todoData={todoData}
 					deleteTodoRender={deleteTodoRender}

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { createTodo, deleteTodo, getTodo, updateTodo } from 'apis/Api';
 import TodoView from 'components/views/todo/TodoView';
+import { removeAccessToken } from 'tokens/token';
 
 export default function TodoListContainer({ token }) {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
-
+	const navigator = useNavigate();
 	async function createTodoRender(token, todo) {
 		const res = await createTodo(token, todo);
 		if (res.staus !== 201) {
@@ -50,6 +52,11 @@ export default function TodoListContainer({ token }) {
 		}
 		getDataTodos();
 	};
+	const LogoutButton = () => {
+		removeAccessToken();
+		navigator('/signin');
+		return;
+	};
 
 	useEffect(() => {
 		getDataTodos();
@@ -65,6 +72,7 @@ export default function TodoListContainer({ token }) {
 			inputValue={inputValue}
 			setTodoData={setTodoData}
 			token={token}
+			LogoutButton={LogoutButton}
 		/>
 	);
 }
