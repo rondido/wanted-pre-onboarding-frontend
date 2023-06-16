@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { createTodo, deleteTodo, getTodo, updateTodo } from 'apis/Api';
 import TodoView from 'components/views/todo/TodoView';
 
-export default function TodoListContainer() {
+export default function TodoListContainer({ token }) {
 	const [inputValue, setInputValue] = useState();
 	const [todoData, setTodoData] = useState([]);
-	const navigator = useNavigate();
 
 	async function createTodoRender(todo) {
 		await createTodo(todo);
@@ -31,7 +29,8 @@ export default function TodoListContainer() {
 	};
 
 	const getDataTodos = async () => {
-		const getTodoList = await getTodo();
+		const getTodoList = await getTodo(token);
+
 		setTodoData(getTodoList.data);
 	};
 
@@ -42,13 +41,6 @@ export default function TodoListContainer() {
 	};
 
 	useEffect(() => {
-		if (localStorage.getItem('access_token') == null) {
-			navigator('/signin');
-			return;
-		}
-		if (localStorage.getItem('access_token').length > 0) {
-			getDataTodos();
-		}
 		getDataTodos();
 	}, []);
 

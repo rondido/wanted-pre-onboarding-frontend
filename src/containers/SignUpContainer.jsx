@@ -4,7 +4,7 @@ import useValidation from 'lib/useValidation';
 import styled from 'styled-components';
 import { requerstSignUp } from 'apis/Api';
 import { useNavigate } from 'react-router';
-import { USER_ACCESS_TOKEN } from 'token/USER_ACCESS_TOKEN';
+import { USER_ACCESS_TOKEN, hasAccessToken } from 'tokens/token';
 
 const Container = styled.div`
 	display: flex;
@@ -102,12 +102,13 @@ export default function SignUpContainer() {
 	};
 
 	useEffect(() => {
-		if (USER_ACCESS_TOKEN) navigate('/todo');
+		if (hasAccessToken()) navigate('/todo');
 	}, []);
 
 	const singinNavigate = () => {
 		navigate('/signin');
 	};
+
 	return (
 		<Container>
 			<Item>

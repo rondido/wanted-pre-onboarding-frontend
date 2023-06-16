@@ -65,7 +65,7 @@ export default function TodoItem({
 		setUpdateValue(e.target.value);
 	};
 
-	const handleSubmit = async (e, id) => {
+	const handleSubmit = async id => {
 		setButtonValid(false);
 		const res = await updateTodo(id, updateValue, isCompleted);
 		setTodoData(prev => prev.map(todo => (todo.id === res.data.id ? res.data : todo)));
