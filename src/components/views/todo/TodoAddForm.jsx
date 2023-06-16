@@ -54,7 +54,7 @@ const InputLogoutButton = styled.button`
 	}
 `;
 
-export default function TodoForm({ addTodoSubmit, inputValue, todoChange, LogoutButton }) {
+export default function TodoAddForm({ addTodoSubmit, inputValue, todoChange, LogoutButton }) {
 	return (
 		<div>
 			<TitleDiv>
