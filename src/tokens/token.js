@@ -12,7 +12,6 @@ export function removeAccessToken() {
 	localStorage.removeItem(ACCESS_TOKEN);
 }
 
-// 있을때
 export function hasAccessToken() {
 	return getAccessToken() !== undefined && getAccessToken() !== null;
 }

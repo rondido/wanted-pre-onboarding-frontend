@@ -34,6 +34,7 @@ export default function TodoView({
 	deleteTodoRender,
 	updateCheckTodo,
 	setTodoData,
+	token,
 }) {
 	return (
 		<Container>
@@ -44,6 +45,7 @@ export default function TodoView({
 					deleteTodoRender={deleteTodoRender}
 					updateCheckTodo={updateCheckTodo}
 					setTodoData={setTodoData}
+					token={token}
 				/>
 			</WapperDiv>
 		</Container>

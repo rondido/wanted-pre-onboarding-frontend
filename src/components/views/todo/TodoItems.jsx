@@ -9,7 +9,13 @@ const TodoItemDiv = styled.div`
 	width: 90%;
 `;
 
-export default function TodoItems({ todoData, deleteTodoRender, updateCheckTodo, setTodoData }) {
+export default function TodoItems({
+	todoData,
+	deleteTodoRender,
+	updateCheckTodo,
+	setTodoData,
+	token,
+}) {
 	return (
 		<div>
 			{todoData &&
@@ -22,6 +28,7 @@ export default function TodoItems({ todoData, deleteTodoRender, updateCheckTodo,
 							deletebutton={deleteTodoRender}
 							updateCheckTodo={updateCheckTodo}
 							setTodoData={setTodoData}
+							token={token}
 						/>
 					</TodoItemDiv>
 				))}

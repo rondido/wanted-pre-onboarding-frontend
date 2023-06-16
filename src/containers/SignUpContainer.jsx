@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import useValidation from 'lib/useValidation';
 import { requerstSignUp } from 'apis/Api';
-import { hasAccessToken } from 'tokens/token';
 import SignupView from 'components/views/signup/SignupView';
 
 export default function SignUpContainer() {
@@ -25,6 +24,9 @@ export default function SignUpContainer() {
 	async function postSignupRender({ email, password }) {
 		const status = await requerstSignUp({ email, password });
 		if (status === 201) navigate('/signin');
+		if (status.response.status === 400) {
+			alert(status.response.data.message);
+		}
 	}
 
 	const handleSignUp = e => {
@@ -32,11 +34,7 @@ export default function SignUpContainer() {
 		postSignupRender(signUpFormData);
 	};
 
-	useEffect(() => {
-		if (hasAccessToken()) navigate('/todo');
-	}, []);
-
-	const singinNavigate = () => {
+	const singUpNavigate = () => {
 		navigate('/signin');
 	};
 
@@ -45,7 +43,7 @@ export default function SignUpContainer() {
 			inputChange={inputChange}
 			passwordStatus={passwordStatus}
 			emailStatus={emailStatus}
-			singinNavigate={singinNavigate}
+			singinNavigate={singUpNavigate}
 			handleSignUp={handleSignUp}
 		/>
 	);

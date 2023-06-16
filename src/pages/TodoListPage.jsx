@@ -1,18 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import TodoListContainer from 'containers/TodoListContainer';
 
-import useInitialAccessToken from 'lib/useTokenHandler';
-import { getAccessToken } from 'tokens/token';
+import { getAccessToken, hasAccessToken } from 'tokens/token';
 
 export default function TodoListPage() {
-	const [token, isLoading] = useInitialAccessToken();
-	// const token1 = getAccessToken();
-	// console.log(token);
+	const token = getAccessToken();
 	const navigator = useNavigate();
 	useEffect(() => {
-		if (!isLoading) {
+		if (!hasAccessToken) {
 			navigator('/signin');
 			return;
 		}
