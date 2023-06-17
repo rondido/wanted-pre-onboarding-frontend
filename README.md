@@ -6,9 +6,9 @@
 
 박진현
 
-### 프로젝트 실행
+## 프로젝트 실행
 
-npm install && npm start
+npm install & npm start
 
 ## 배포된 사이트 주소
 
