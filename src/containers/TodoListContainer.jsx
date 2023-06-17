@@ -16,7 +16,7 @@ export default function TodoListContainer({ token }) {
 			alert('에러가 발생했습니다');
 			return;
 		}
-		getDataTodos();
+		setTodoData(prev => [...prev, status.data]);
 	}
 
 	async function deleteTodoRender(id, token) {
@@ -36,7 +36,7 @@ export default function TodoListContainer({ token }) {
 	const addTodoSubmit = e => {
 		e.preventDefault();
 		if (inputValue === undefined || inputValue === null || inputValue === '') {
-			alert('값이 비어있다. 값을 입력해주세요');
+			alert('값이 비어있거나 잘못된 입력 방식입니다.');
 			return;
 		}
 		createTodoRender(token, inputValue);
