@@ -23,11 +23,11 @@ export default function SignUpContainer() {
 
 	async function postSignupRender({ email, password }) {
 		const status = await requerstSignUp({ email, password });
-		console.log(status);
-		if (status === 201) navigate('/signin');
-		if (status === 400) {
-			alert(status.response.data.message);
+		if (status !== 201) {
+			alert('동일한 이메일이 있습니다.');
+			return;
 		}
+		navigate('/signin');
 	}
 
 	const handleSignUp = e => {
